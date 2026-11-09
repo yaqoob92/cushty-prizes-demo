@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Cushty Prizes — Website Demo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0a0a0b; --panel:#141416; --panel2:#1b1b1f; --line:#2a2a30;
+  --gold:#ffcc1a; --gold2:#ffb000; --red:#e3262f; --green:#22c55e; --blue:#3b82f6;
+  --text:#f5f5f5; --muted:#a1a1aa; --radius:14px;
+}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif;font-size:15px;line-height:1.45}
+a{color:inherit;text-decoration:none}
+button{font:inherit;cursor:pointer}
+.wrap{max-width:1220px;margin:0 auto;padding:0 18px}
+.display{font-family:Anton,Impact,sans-serif;letter-spacing:.5px;text-transform:uppercase;font-weight:400}
+
+/* demo bar */
+.demobar{background:linear-gradient(90deg,#3b0a0d,#1a1a1a);border-bottom:1px solid #4a1418;font-size:13px}
+.demobar .wrap{display:flex;gap:10px;align-items:center;flex-wrap:wrap;padding-top:8px;padding-bottom:8px}
+.demobar b{color:var(--gold)}
+.demobar .views{margin-left:auto;display:flex;gap:6px;flex-wrap:wrap}
+.demobar .views a{padding:4px 10px;border:1px solid #5a2a2e;border-radius:999px;color:#ffd9db}
+.demobar .views a.on{background:var(--gold);color:#000;border-color:var(--gold)}
+
+/* header */
+header.site{position:sticky;top:0;z-index:40;background:rgba(10,10,11,.92);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+header.site .wrap{display:flex;align-items:center;gap:22px;height:72px}
+.logo{display:flex;flex-direction:column;line-height:.9;transform:rotate(-3deg)}
+.logo .l1{font-family:Anton,Impact,'Arial Narrow',sans-serif;font-size:30px;color:var(--gold);text-shadow:2px 2px 0 var(--red),4px 4px 0 #000}
+.logo .l2{font-family:Anton,Impact,'Arial Narrow',sans-serif;font-size:14px;letter-spacing:4px;background:var(--red);color:#fff;padding:1px 6px;align-self:flex-end;margin-top:2px}
+nav.main{display:flex;gap:18px;font-weight:600;font-size:14px}
+nav.main a{color:#ddd;padding:6px 0;border-bottom:2px solid transparent}
+nav.main a:hover,nav.main a.on{color:var(--gold);border-color:var(--gold)}
+.hright{margin-left:auto;display:flex;gap:10px;align-items:center}
+.pill{display:inline-flex;align-items:center;gap:6px;background:var(--panel2);border:1px solid var(--line);border-radius:999px;padding:8px 14px;font-weight:700;font-size:14px}
+.pill.gold{background:var(--gold);color:#000;border-color:var(--gold)}
+.basketbtn{position:relative}
+.basketbtn .cnt:empty,.basketbtn .cnt[data-z]{display:none}
+.basketbtn .cnt{position:absolute;top:-6px;right:-6px;background:var(--red);color:#fff;border-radius:999px;font-size:11px;min-width:19px;height:19px;display:grid;place-items:center;padding:0 5px}
+.burger{display:none}
+
+/* buttons */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:0;border-radius:10px;padding:12px 18px;font-weight:800;background:var(--gold);color:#000;text-transform:uppercase;letter-spacing:.3px;font-size:14px;transition:transform .1s,filter .15s}
+.btn:hover{filter:brightness(1.08)} .btn:active{transform:scale(.98)}
+.btn.red{background:var(--red);color:#fff}
+.btn.ghost{background:transparent;border:1px solid var(--line);color:var(--text)}
+.btn.dark{background:var(--panel2);color:var(--text);border:1px solid var(--line)}
+.btn.sm{padding:8px 12px;font-size:12px;border-radius:8px}
+.btn.block{width:100%}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+
+/* hero video banner */
+.hero{position:relative;overflow:hidden;border-radius:20px;margin:22px 0;height:420px;background:#000;border:1px solid #3a2e00}
+.hero .bg{position:absolute;inset:-20%;background:
+  radial-gradient(circle at 20% 30%,rgba(255,204,26,.55),transparent 40%),
+  radial-gradient(circle at 80% 70%,rgba(227,38,47,.55),transparent 45%),
+  radial-gradient(circle at 60% 20%,rgba(255,120,0,.35),transparent 40%),#0b0b0b;
+  animation:pan 14s ease-in-out infinite alternate}
+@keyframes pan{0%{transform:scale(1) rotate(0)}100%{transform:scale(1.25) rotate(8deg)}}
+.hero .rays{position:absolute;inset:0;background:repeating-conic-gradient(from 0deg at 70% 110%,rgba(255,255,255,.05) 0 6deg,transparent 6deg 14deg);animation:spin 40s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.float{position:absolute;font-size:64px;filter:drop-shadow(0 10px 20px rgba(0,0,0,.6));animation:bob 6s ease-in-out infinite}
+@keyframes bob{50%{transform:translateY(-22px) rotate(6deg)}}
+.slide{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;padding:0 56px;opacity:0;transform:translateY(16px);transition:opacity .7s,transform .7s}
+.slide{pointer-events:none}
+.slide.on{opacity:1;transform:none;pointer-events:auto}
+.slide h1{font-family:Anton,Impact,'Arial Narrow',sans-serif;font-size:64px;line-height:1;margin:0 0 12px;max-width:640px;text-shadow:0 4px 0 #000}
+.slide h1 em{font-style:normal;color:var(--gold)}
+.slide p{font-size:18px;max-width:520px;color:#eee;margin:0 0 22px}
+.vidchip{position:absolute;top:16px;left:16px;background:rgba(0,0,0,.6);border:1px solid rgba(255,255,255,.2);border-radius:999px;padding:6px 12px;font-size:12px;display:flex;gap:8px;align-items:center;z-index:3}
+.vidchip i{width:8px;height:8px;border-radius:50%;background:var(--red);animation:blink 1.2s infinite}
+@keyframes blink{50%{opacity:.2}}
+.vidbar{position:absolute;left:0;right:0;bottom:0;height:4px;background:rgba(255,255,255,.12);z-index:3}
+.vidbar span{display:block;height:100%;background:var(--gold);width:0}
+.dots{position:absolute;bottom:18px;right:24px;display:flex;gap:8px;z-index:3}
+.dots button{width:10px;height:10px;border-radius:50%;border:0;background:rgba(255,255,255,.35);padding:0}
+.dots button.on{background:var(--gold);width:28px;border-radius:6px}
+
+/* trust strip */
+.trust{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:30px}
+.trust>div{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:14px 16px;display:flex;gap:12px;align-items:center}
+.trust .ico{font-size:26px}
+.trust b{display:block;font-size:18px;color:var(--gold)}
+.trust small{color:var(--muted)}
+
+/* sections */
+.sechead{display:flex;align-items:end;justify-content:space-between;gap:12px;margin:34px 0 16px;flex-wrap:wrap}
+.sechead h2{font-family:Anton,Impact,'Arial Narrow',sans-serif;font-size:34px;margin:0;text-transform:uppercase}
+.sechead h2 span{color:var(--gold)}
+.tabs{display:flex;gap:6px;flex-wrap:wrap}
+.tabs button{background:var(--panel2);border:1px solid var(--line);color:#ddd;border-radius:999px;padding:8px 14px;font-weight:600;font-size:13px}
+.tabs button.on{background:var(--gold);color:#000;border-color:var(--gold)}
+
+/* comp cards */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:18px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:18px;overflow:hidden;display:flex;flex-direction:column;transition:transform .15s,border-color .15s}
+.card:hover{transform:translateY(-4px);border-color:#5a4a00}
+.thumb{position:relative;aspect-ratio:4/3;display:grid;place-items:center;font-size:92px;overflow:hidden}
+.thumb .big{filter:drop-shadow(0 12px 18px rgba(0,0,0,.55));transition:transform .3s}
+.card:hover .thumb .big{transform:scale(1.08) rotate(-4deg)}
+.badge{position:absolute;top:10px;left:10px;font-size:11px;font-weight:800;text-transform:uppercase;padding:5px 9px;border-radius:6px;background:#000;color:var(--gold);border:1px solid var(--gold)}
+.badge.r{left:auto;right:10px;background:var(--red);color:#fff;border-color:var(--red)}
+.cd{position:absolute;left:10px;right:10px;bottom:10px;display:flex;justify-content:center;gap:6px}
+.cd span{background:rgba(0,0,0,.75);border-radius:8px;padding:5px 8px;text-align:center;min-width:46px;font-weight:800;font-size:16px}
+.cd span small{display:block;font-size:9px;color:var(--muted);font-weight:600;text-transform:uppercase}
+.cbody{padding:14px 16px 16px;display:flex;flex-direction:column;gap:10px;flex:1}
+.cbody h3{margin:0;font-size:17px;line-height:1.25}
+.price{font-family:Anton,Impact,'Arial Narrow',sans-serif;font-size:26px;color:var(--gold)}
+.price small{font-family:Inter;font-size:12px;color:var(--muted);font-weight:600}
+.prog{height:9px;background:#26262b;border-radius:99px;overflow:hidden}
+.prog span{display:block;height:100%;background:linear-gradient(90deg,var(--gold),var(--red));border-radius:99px}
+.meta{display:flex;justify-content:space-between;font-size:12px;color:var(--muted)}
+.cbody .btn{margin-top:auto}
+
+/* memberships */
+.tiers{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px}
+.tier{background:var(--panel);border:2px solid var(--line);border-radius:16px;padding:16px 12px;text-align:center;position:relative}
+.tier.hot{border-color:var(--gold);background:linear-gradient(180deg,#2a2100,var(--panel))}
+.tier .p{font-family:Anton,Impact,'Arial Narrow',sans-serif;font-size:34px}
+.tier .g{background:var(--gold);color:#000;font-weight:800;border-radius:8px;padding:4px 6px;margin:8px 0;font-size:13px}
+.tier small{color:var(--muted)}
+.tier .tag{position:absolute;top:-10px;left:50%;transform:translateX(-50%);background:var(--red);font-size:10px;font-weight:800;padding:3px 8px;border-radius:6px;white-space:nowrap}
+
+/* steps, winners */
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.step{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:20px}
+.step .n{font-family:Anton,Impact,'Arial Narrow',sans-serif;font-size:40px;color:var(--gold)}
+.wlist{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:14px}
+.win{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:14px;display:flex;gap:12px;align-items:center}
+.win .av{width:52px;height:52px;border-radius:12px;display:grid;place-items:center;font-size:28px;flex:none}
+.win b{display:block}
+.win small{color:var(--muted)}
+.win.new{border-color:var(--gold);box-shadow:0 0 0 3px rgba(255,204,26,.15)}
+
+footer{margin-top:60px;border-top:1px solid var(--line);background:#070708;padding:34px 0;color:var(--muted);font-size:13px}
+footer .cols{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:20px}
+footer h4{color:#fff;margin:0 0 10px}
+footer a{display:block;margin:4px 0}
+footer a:hover{color:var(--gold)}
+
+/* comp page */
+.crumbs{color:var(--muted);font-size:13px;margin:20px 0 10px}
+.crumbs a{color:var(--gold)}
+.cpage{display:grid;grid-template-columns:1.1fr 1fr;gap:28px;align-items:start}
+.cimg{border-radius:20px;aspect-ratio:1/1;display:grid;place-items:center;font-size:190px;position:relative;overflow:hidden;border:1px solid var(--line)}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:20px}
+.cpage h1{font-family:Anton,Impact,'Arial Narrow',sans-serif;font-size:40px;line-height:1.05;margin:0 0 10px;text-transform:uppercase}
+.bigcd{display:flex;gap:8px;margin:14px 0}
+.bigcd span{flex:1;background:var(--panel2);border:1px solid var(--line);border-radius:10px;padding:10px 4px;text-align:center;font-family:Anton,Impact,'Arial Narrow',sans-serif;font-size:28px}
+.bigcd small{display:block;font-family:Inter;font-size:10px;color:var(--muted);text-transform:uppercase}
+.qty{display:flex;align-items:center;gap:10px;margin:12px 0}
+.qty button{width:44px;height:44px;border-radius:10px;border:1px solid var(--line);background:var(--panel2);color:#fff;font-size:22px}
+.qty .v{font-family:Anton,Impact,'Arial Narrow',sans-serif;font-size:32px;min-width:70px;text-align:center}
+input[type=range]{width:100%;accent-color:var(--gold)}
+.quick{display:flex;gap:6px;flex-wrap:wrap}
+.quick button{flex:1;background:var(--panel2);border:1px solid var(--line);color:#fff;border-radius:8px;padding:8px;font-weight:700}
+.quick button.on{border-color:var(--gold);color:var(--gold)}
+.total{display:flex;justify-content:space-between;align-items:center;margin:14px 0;font-size:16px}
+.total b{font-family:Anton,Impact,'Arial Narrow',sans-serif;font-size:30px;color:var(--gold)}
+.note{font-size:12px;color:var(--muted)}
+.iw{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px}
+.iw div{background:var(--panel2);border:1px solid var(--line);border-radius:10px;padding:10px;font-size:13px}
+.iw div.won{opacity:.5;text-decoration:line-through}
+.desc li{margin:6px 0;color:#ddd}
+
+/* checkout */
+.co{display:grid;grid-template-columns:1.4fr 1fr;gap:24px;align-items:start;margin-top:22px}
+.line{display:flex;gap:12px;align-items:center;padding:12px 0;border-bottom:1px solid var(--line)}
+.line .e{width:56px;height:56px;border-radius:10px;display:grid;place-items:center;font-size:30px;flex:none}
+.line .grow{flex:1}
+.paym{display:flex;flex-direction:column;gap:8px;margin:12px 0}
+.paym label{display:flex;gap:12px;align-items:center;background:var(--panel2);border:1px solid var(--line);border-radius:10px;padding:12px;cursor:pointer}
+.paym label.on{border-color:var(--gold);background:#221c00}
+.paym input{accent-color:var(--gold)}
+.paym .r{margin-left:auto;font-size:12px;color:var(--muted)}
+.logo-s{font-weight:900;font-size:13px;padding:3px 7px;border-radius:5px}
+.tnums{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.tnums span{background:var(--gold);color:#000;font-weight:800;border-radius:6px;padding:4px 8px;font-size:13px}
+
+/* dashboards */
+.dash>*{min-width:0}
+.dash{display:grid;grid-template-columns:230px minmax(0,1fr);gap:22px;margin-top:22px;align-items:start}
+.side{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:10px;position:sticky;top:90px}
+.side .who{padding:12px;border-bottom:1px solid var(--line);margin-bottom:8px}
+.side .who b{display:block;font-size:16px}
+.side .who small{color:var(--muted)}
+.side button{display:flex;width:100%;gap:10px;align-items:center;text-align:left;background:none;border:0;color:#ddd;padding:11px 12px;border-radius:9px;font-weight:600}
+.side button:hover{background:var(--panel2)}
+.side button.on{background:var(--gold);color:#000}
+.side button .c{margin-left:auto;background:var(--red);color:#fff;border-radius:99px;font-size:11px;padding:1px 7px}
+.kpis{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px;margin-bottom:18px}
+.kpi{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:16px}
+.kpi small{color:var(--muted);font-weight:600;text-transform:uppercase;font-size:11px;letter-spacing:.4px}
+.kpi b{display:block;font-family:Anton,Impact,'Arial Narrow',sans-serif;font-size:30px;margin-top:4px}
+.kpi .d{font-size:12px;color:var(--green)}
+.kpi.gold{border-color:#5a4a00;background:linear-gradient(180deg,#221c00,var(--panel))}
+.kpi.gold b{color:var(--gold)}
+h2.t{font-family:Anton,Impact,'Arial Narrow',sans-serif;font-size:28px;text-transform:uppercase;margin:0 0 14px}
+h3.t{margin:0 0 12px;font-size:17px}
+table{width:100%;border-collapse:collapse;font-size:14px}
+th{text-align:left;color:var(--muted);font-weight:600;font-size:12px;text-transform:uppercase;padding:10px;border-bottom:1px solid var(--line);white-space:nowrap}
+td{padding:11px 10px;border-bottom:1px solid #1f1f24;vertical-align:middle}
+tr:hover td{background:#17171a}
+.tblwrap{overflow-x:auto}
+.st{font-size:11px;font-weight:800;border-radius:6px;padding:3px 8px;text-transform:uppercase;white-space:nowrap}
+.st.ok{background:rgba(34,197,94,.15);color:#4ade80}
+.st.pend{background:rgba(255,204,26,.15);color:var(--gold)}
+.st.bad{background:rgba(227,38,47,.15);color:#f87171}
+.st.blue{background:rgba(59,130,246,.15);color:#93c5fd}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.field{display:flex;flex-direction:column;gap:6px;margin-bottom:12px}
+.field label{font-size:12px;font-weight:700;color:var(--muted);text-transform:uppercase}
+.field input,.field select,.field textarea{background:var(--panel2);border:1px solid var(--line);color:#fff;border-radius:9px;padding:11px 12px;font:inherit}
+.field textarea{min-height:120px;resize:vertical}
+.checks{display:flex;gap:10px;flex-wrap:wrap}
+.checks label{display:flex;gap:8px;align-items:center;background:var(--panel2);border:1px solid var(--line);border-radius:9px;padding:10px 12px;font-weight:600;text-transform:none;color:#fff;font-size:14px}
+.checks input{accent-color:var(--gold)}
+.bal{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:16px}
+.balc{border-radius:16px;padding:20px;border:1px solid var(--line)}
+.balc.play{background:linear-gradient(135deg,#2b2200,#141416)}
+.balc.win{background:linear-gradient(135deg,#0d2a17,#141416)}
+.balc b{display:block;font-family:Anton,Impact,'Arial Narrow',sans-serif;font-size:44px}
+.balc small{color:var(--muted)}
+.mem{background:linear-gradient(135deg,#2b2200,#141416);border:1px solid #5a4a00;border-radius:16px;padding:20px;display:flex;gap:20px;align-items:center;flex-wrap:wrap}
+.mem .big{font-family:Anton,Impact,'Arial Narrow',sans-serif;font-size:52px;color:var(--gold);line-height:1}
+.ring{--p:50;width:110px;height:110px;border-radius:50%;background:conic-gradient(var(--gold) calc(var(--p)*1%),#2a2a30 0);display:grid;place-items:center;flex:none}
+.ring div{width:86px;height:86px;border-radius:50%;background:var(--panel);display:grid;place-items:center;text-align:center;font-size:11px;color:var(--muted)}
+.ring b{display:block;font-family:Anton,Impact,'Arial Narrow',sans-serif;font-size:26px;color:#fff}
+.msg{display:flex;gap:12px;padding:14px;border-bottom:1px solid var(--line)}
+.msg .dot{width:10px;height:10px;border-radius:50%;background:var(--gold);margin-top:6px;flex:none}
+.msg.read .dot{background:transparent}
+.msg small{color:var(--muted)}
+.ticketgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(64px,1fr));gap:6px;max-height:300px;overflow:auto;padding:4px}
+.ticketgrid span{background:var(--panel2);border:1px solid var(--line);border-radius:6px;text-align:center;padding:6px 0;font-weight:700;font-size:13px}
+.ticketgrid span.hit{background:var(--gold);color:#000;border-color:var(--gold);transform:scale(1.1)}
+.roll{font-family:Anton,Impact,'Arial Narrow',sans-serif;font-size:80px;color:var(--gold);text-align:center;line-height:1;margin:10px 0;text-shadow:0 0 30px rgba(255,204,26,.4)}
+.rollname{text-align:center;font-size:18px;font-weight:700;min-height:26px}
+
+/* modal + toast */
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.7);display:none;align-items:center;justify-content:center;z-index:90;padding:18px}
+.modal.on{display:flex}
+.modal .box{background:var(--panel);border:1px solid var(--line);border-radius:18px;max-width:520px;width:100%;padding:24px;max-height:90vh;overflow:auto}
+.modal h3{font-family:Anton,Impact,'Arial Narrow',sans-serif;font-size:26px;text-transform:uppercase;margin:0 0 10px}
+.toast{position:fixed;bottom:22px;left:50%;transform:translateX(-50%) translateY(120px);background:#fff;color:#000;font-weight:700;border-radius:12px;padding:13px 18px;z-index:100;transition:transform .3s;max-width:90vw;box-shadow:0 10px 30px rgba(0,0,0,.5)}
+.toast.on{transform:translateX(-50%) translateY(0)}
+.callout{background:#1d1700;border:1px solid #5a4a00;border-radius:12px;padding:12px 14px;font-size:13px;color:#ffe9a0;margin:12px 0}
+.callout.g{background:#0c2014;border-color:#1f5a33;color:#b7f5cc}
+.callout.r{background:#250c0e;border-color:#5a1f24;color:#ffc9cc}
+.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.spacer{flex:1}
+.mt{margin-top:16px}
+
+@media (max-width:980px){
+  nav.main{display:none}
+  .burger{display:inline-flex}
+  nav.main.open{display:flex;position:absolute;top:72px;left:0;right:0;flex-direction:column;background:#0d0d0f;padding:12px 18px;border-bottom:1px solid var(--line)}
+  .cpage,.co,.dash,.two{grid-template-columns:1fr}
+  .side{position:static;display:flex;overflow-x:auto;gap:4px}
+  .side .who{display:none}
+  .side button{white-space:nowrap;width:auto}
+  .trust{grid-template-columns:1fr 1fr}
+  .kpis{grid-template-columns:1fr 1fr}
+  .kpi b{font-size:24px}
+  .steps{grid-template-columns:1fr}
+  footer .cols{grid-template-columns:1fr 1fr}
+  .slide{padding:0 24px}
+  .slide h1{font-size:42px}
+  .hero{height:380px}
+  .float{font-size:44px;opacity:.6}
+}
+@media (max-width:560px){
+  .trust{grid-template-columns:1fr}
+  .slide h1{font-size:36px}
+  .hright .pill.hide-s{display:none}
+  .bal{grid-template-columns:1fr}
+  .cimg{font-size:130px}
+}
+</style>
+</head>
+<body>
+
+<div class="demobar"><div class="wrap">
+  <span>🔍 <b>DEMO PREVIEW</b>: sample data, no real payments. Click around to try it.</span>
+  <div class="views">
+    <a href="#home" data-v="home">Homepage</a>
+    <a href="#comp-1" data-v="comp">Competition</a>
+    <a href="#basket" data-v="basket">Checkout</a>
+    <a href="#account" data-v="account">Member dashboard</a>
+    <a href="#owner" data-v="owner">Owner dashboard</a>
+  </div>
+</div></div>
+
+<header class="site"><div class="wrap">
+  <a href="#home" class="logo" aria-label="Cushty Prizes home"><span class="l1">CUSHTY</span><span class="l2">PRIZES</span></a>
+  <nav class="main" id="nav">
+    <a href="#home" data-n="home">Competitions</a>
+    <a href="#instant" data-n="instant">Instant Wins</a>
+    <a href="#winners" data-n="winners">Winners</a>
+    <a href="#memberships" data-n="memberships">Memberships</a>
+    <a href="#draws" data-n="draws">Live Draws</a>
+  </nav>
+  <div class="hright">
+    <a href="#account" class="pill hide-s" title="Available to play">💰 <span id="hdrBal">£0.00</span></a>
+    <a href="#account" class="pill hide-s">👤 Sarah</a>
+    <a href="#basket" class="pill gold basketbtn">🛒 Basket <span class="cnt" id="bcount">0</span></a>
+    <button class="pill burger" onclick="document.getElementById('nav').classList.toggle('open')">☰</button>
+  </div>
+</div></header>
+
+<main id="app"></main>
+
+<footer><div class="wrap">
+  <div class="cols">
+    <div>
+      <div class="logo" style="transform:none;align-items:flex-start"><span class="l1" style="font-size:26px">CUSHTY</span><span class="l2" style="align-self:flex-start">PRIZES</span></div>
+      <p>Big prizes, real people, live draws. 18+ only. UK residents. Play responsibly.</p>
+      <p>🎁 <b style="color:#fff">Free postal entry route</b> available on every competition.</p>
+    </div>
+    <div><h4>Play</h4><a href="#home">Competitions</a><a href="#instant">Instant Wins</a><a href="#memberships">Memberships</a><a href="#draws">Live Draws</a></div>
+    <div><h4>Help</h4><a href="#home">How it works</a><a href="#home">FAQ</a><a href="#home">Contact us</a><a href="#home">Safe playing</a></div>
+    <div><h4>Legal</h4><a href="#home">Terms &amp; Conditions</a><a href="#home">Privacy Policy</a><a href="#home">Free Entry Route</a><a href="#home">Cookie Policy</a></div>
+  </div>
+</div></footer>
+
+<div class="modal" id="modal"><div class="box" id="mbox"></div></div>
+<div class="toast" id="toast"></div>
+
+<script>
+/* ---------------- DATA ---------------- */
+const DAY=864e5, NOW=Date.now();
+const fmt=n=>'£'+n.toFixed(2);
+const dstr=t=>new Date(t).toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'});
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const G={
+ gold:'linear-gradient(135deg,#3a2c00,#0e0e10 70%)', red:'linear-gradient(135deg,#4a0d12,#0e0e10 70%)',
+ blue:'linear-gradient(135deg,#0d2346,#0e0e10 70%)', green:'linear-gradient(135deg,#0b3a1f,#0e0e10 70%)',
+ purple:'linear-gradient(135deg,#2c1250,#0e0e10 70%)', teal:'linear-gradient(135deg,#053b3b,#0e0e10 70%)'
+};
+const comps=[
+ {id:1,t:'£5,000 Tax-Free Cash',e:'💷',cat:'cash',p:0.99,total:9999,sold:6120,end:NOW+2*DAY+5*36e5,g:G.green,tag:'Cash',instant:false},
+ {id:2,t:'Tottenham Hotspur Home Shirt',e:'⚽',cat:'sport',p:1.00,total:500,sold:120,end:NOW+16*36e5,g:G.blue,tag:'Ends today',instant:false},
+ {id:3,t:'PlayStation 5 Pro + 2 Controllers',e:'🎮',cat:'tech',p:1.49,total:2999,sold:1840,end:NOW+3*DAY,g:G.purple,tag:'Tech',instant:true},
+ {id:4,t:'iPhone 17 Pro Max 256GB',e:'📱',cat:'tech',p:1.99,total:3500,sold:2200,end:NOW+5*DAY,g:G.teal,tag:'Tech',instant:false},
+ {id:5,t:'£250 Instant Win Bundle',e:'⚡',cat:'instant',p:0.49,total:4999,sold:3100,end:NOW+1*DAY+3*36e5,g:G.gold,tag:'Instant wins',instant:true},
+ {id:6,t:'BMW M135i or £30,000 Cash',e:'🚗',cat:'cars',p:4.99,total:7999,sold:4400,end:NOW+9*DAY,g:G.red,tag:'Dream car',instant:false},
+ {id:7,t:'Brazil Away Football Kit',e:'🇧🇷',cat:'sport',p:2.00,total:1500,sold:38,end:NOW+6*DAY,g:G.green,tag:'Sport',instant:false},
+ {id:8,t:'Apple Watch Ultra 3',e:'⌚',cat:'tech',p:0.79,total:1999,sold:1650,end:NOW+12*36e5,g:G.purple,tag:'Ending soon',instant:true},
+];
+const tiers=[{p:1,g:2},{p:2,g:4},{p:3,g:6},{p:5,g:10},{p:7,g:14},{p:10,g:20,tag:'Popular'},{p:15,g:30,tag:'Big bonus'},{p:20,g:40,tag:'Max credits'}];
+const names=['Sarah M.','James T.','Aisha K.','Dan R.','Chloe W.','Mo H.','Liam P.','Emma S.','Ryan B.','Zara N.','Tom F.','Jess L.','Kieran O.','Priya D.','Callum G.','Hannah J.'];
+const winners=[
+ {n:'Mark D.',from:'Leeds',prize:'£1,000 Cash',e:'💷',d:NOW-2*DAY,t:4471},
+ {n:'Leanne P.',from:'Bristol',prize:'Xbox Series X',e:'🎮',d:NOW-4*DAY,t:1209},
+ {n:'Gary W.',from:'Cardiff',prize:'£250 Instant Win',e:'⚡',d:NOW-5*DAY,t:877},
+ {n:'Nicola S.',from:'Glasgow',prize:'Dyson Airwrap',e:'💨',d:NOW-8*DAY,t:332},
+];
+const S={ // member state
+  name:'Sarah Mitchell', email:'sarah.m@example.com', phone:'+44 7700 900123',
+  plan:10, lastCredit:NOW-12*DAY, nextCredit:NOW+16*DAY, planPending:null,
+  play:32.50, winnings:50.00, withdrawals:[],
+  tickets:[{c:1,nums:[5121,5122,5123,5124,5125]},{c:3,nums:[1702,1703]},{c:8,nums:[1544]}],
+  tx:[
+   {d:NOW-12*DAY,desc:'£10 membership payment (Stripe)',amt:-10,type:'pay'},
+   {d:NOW-12*DAY,desc:'FREE membership credits (£10 plan × 2)',amt:20,type:'credit'},
+   {d:NOW-9*DAY,desc:'Wallet top-up (PayPal)',amt:20,type:'topup'},
+   {d:NOW-9*DAY,desc:'5 tickets: £5,000 Tax-Free Cash',amt:-4.95,type:'spend'},
+   {d:NOW-6*DAY,desc:'Winnings: £50 Instant Win',amt:50,type:'win'},
+  ],
+  msgs:[
+   {from:'Cushty Prizes',s:'🎉 New competition: BMW M135i or £30,000 Cash!',b:'Our biggest prize yet is now live. Tickets from £4.99. Good luck!',d:NOW-1*DAY,read:false},
+   {from:'Cushty Prizes',s:'Your FREE credits have landed 💰',b:'£20 playing value has been added to your account for your £10 membership.',d:NOW-12*DAY,read:true},
+  ]
+};
+let basket=[]; // {c,q}
+const owner={
+  sent:[{d:NOW-1*DAY,to:'All members (1,284)',ch:'Email, App, SMS',s:'New competition: BMW M135i or £30,000 Cash!'}],
+  withdrawals:[{id:1,n:'Gary W.',amt:250,d:NOW-1*DAY,st:'pending',m:'Bank transfer'},{id:2,n:'Leanne P.',amt:75,d:NOW-3*DAY,st:'paid',m:'PayPal'}],
+  drawn:{}
+};
+// deterministic pseudo random
+let seed=7; const rnd=()=>{seed=(seed*16807)%2147483647;return (seed-1)/2147483646};
+const payments=Array.from({length:18},(_,i)=>{const m=['Stripe','PayPal','Stripe','Wallet','Bank transfer','Stripe','PayPal'][Math.floor(rnd()*7)];const kind=rnd()<.4?'Membership':(rnd()<.5?'Tickets':'Wallet top-up');const amt=kind==='Membership'?[1,2,3,5,7,10,15,20][Math.floor(rnd()*8)]:+(rnd()*40+1).toFixed(2);return {d:NOW-i*37*6e4-rnd()*3e6,n:names[Math.floor(rnd()*names.length)],kind,m:kind==='Membership'&&m==='Wallet'?'Stripe':m,amt,st:rnd()<.9?'ok':'pend'}});
+const members=names.map((n,i)=>({n,email:n.toLowerCase().replace(/[^a-z]/g,'')+'@example.com',plan:[0,1,2,3,5,7,10,10,15,20][i%10],play:+(rnd()*60).toFixed(2),win:rnd()<.3?+(rnd()*200).toFixed(2):0,last:NOW-Math.floor(rnd()*27)*DAY}));
+
+/* ---------------- HELPERS ---------------- */
+function toast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('on');clearTimeout(t._);t._=setTimeout(()=>t.classList.remove('on'),3200)}
+function modal(html){document.getElementById('mbox').innerHTML=html;document.getElementById('modal').classList.add('on')}
+function closeModal(){document.getElementById('modal').classList.remove('on')}
+document.getElementById('modal').addEventListener('click',e=>{if(e.target.id==='modal')closeModal()});
+function cdParts(end){let s=Math.max(0,Math.floor((end-Date.now())/1e3));const d=Math.floor(s/86400);s%=86400;const h=Math.floor(s/3600);s%=3600;return [d,h,Math.floor(s/60),s%60]}
+function cdHTML(end,cls='cd'){const [d,h,m,s]=cdParts(end);return `<div class="${cls}" data-end="${end}"><span>${d}<small>days</small></span><span>${h}<small>hrs</small></span><span>${m}<small>mins</small></span><span>${s}<small>secs</small></span></div>`}
+setInterval(()=>document.querySelectorAll('[data-end]').forEach(el=>{const p=cdParts(+el.dataset.end);el.querySelectorAll('span').forEach((sp,i)=>sp.firstChild.nodeValue=p[i])}),1000);
+const C=id=>comps.find(c=>c.id===id);
+function updHdr(){document.getElementById('hdrBal').textContent=fmt(S.play);const n=basket.reduce((a,b)=>a+b.q,0),bc=document.getElementById('bcount');bc.textContent=n;n?bc.removeAttribute('data-z'):bc.setAttribute('data-z','')}
+const pct=c=>Math.round(c.sold/c.total*100);
+
+/* ---------------- VIEWS ---------------- */
+function card(c){return `<div class="card">
+ <a href="#comp-${c.id}" class="thumb" style="background:${c.g}"><span class="badge">${c.tag}</span>${c.instant?'<span class="badge r">⚡ Instant wins</span>':''}<span class="big">${c.e}</span>${cdHTML(c.end)}</a>
+ <div class="cbody"><h3>${c.t}</h3>
+  <div class="price">${fmt(c.p)} <small>per ticket</small></div>
+  <div class="prog"><span style="width:${pct(c)}%"></span></div>
+  <div class="meta"><span>${c.sold.toLocaleString()} sold</span><span>${pct(c)}% · ${(c.total-c.sold).toLocaleString()} left</span></div>
+  <a class="btn" href="#comp-${c.id}">Enter now</a></div></div>`}
+
+let heroTimer;
+function viewHome(scrollTo){
+  const slides=[
+   {h:'Win a <em>BMW M135i</em><br>or £30,000 cash',p:'Tickets from just £4.99. Live draw on Facebook when it sells out or the timer ends.',b:'#comp-6',bt:'Enter now'},
+   {h:'Double your<br><em>playing money</em>',p:'Join a membership: pay £10 every 28 days and get £20 to play. Only at Cushty Prizes.',b:'#memberships',bt:'See memberships'},
+   {h:'<em>£5,000</em> tax-free<br>cash for 99p',p:'Over 60% sold. Do not miss your chance, the draw is only days away!',b:'#comp-1',bt:'Get tickets'},
+  ];
+  const cats=[['all','All'],['ending','Ending soon'],['cash','Cash'],['tech','Tech'],['cars','Cars'],['sport','Sport'],['instant','⚡ Instant wins']];
+  app.innerHTML=`<div class="wrap">
+   <section class="hero" id="hero">
+    <div class="bg"></div><div class="rays"></div>
+    <span class="float" style="right:8%;top:14%">🚗</span><span class="float" style="right:26%;top:52%;animation-delay:-2s">💷</span><span class="float" style="right:6%;top:58%;animation-delay:-4s">🎮</span><span class="float" style="right:30%;top:8%;animation-delay:-1s;font-size:46px">📱</span>
+    <div class="vidchip"><i></i> VIDEO BANNER (your promo video plays here)</div>
+    ${slides.map((s,i)=>`<div class="slide ${i?'':'on'}"><h1>${s.h}</h1><p>${s.p}</p><div><a class="btn" href="${s.b}">${s.bt}</a></div></div>`).join('')}
+    <div class="dots">${slides.map((_,i)=>`<button class="${i?'':'on'}" data-i="${i}" aria-label="Slide ${i+1}"></button>`).join('')}</div>
+    <div class="vidbar"><span id="vbar"></span></div>
+   </section>
+   <div class="trust">
+    <div><span class="ico">🏆</span><div><b>£48,250+</b><small>won by members</small></div></div>
+    <div><span class="ico">👥</span><div><b>1,284</b><small>active members</small></div></div>
+    <div><span class="ico">📺</span><div><b>Live draws</b><small>on Facebook</small></div></div>
+    <div><span class="ico">🔒</span><div><b>Secure payments</b><small>Stripe · PayPal · Bank</small></div></div>
+   </div>
+   <div class="sechead" id="sec-comps"><h2>Live <span>competitions</span></h2><div class="tabs" id="ctabs">${cats.map((c,i)=>`<button class="${i?'':'on'}" data-c="${c[0]}">${c[1]}</button>`).join('')}</div></div>
+   <div class="grid" id="cgrid"></div>
+
+   <div class="sechead" id="sec-memberships"><h2>Cushty <span>memberships</span></h2><a class="btn ghost sm" href="#account">Manage my membership</a></div>
+   <div class="callout">💰 <b>Double playing value:</b> pay every 28 days and get <b>twice</b> that amount to spend on tickets. FREE credits are added once per 28-day cycle, only after your payment is verified. Changing plan starts a new 28-day cycle.</div>
+   <div class="tiers">${tiers.map(t=>`<div class="tier ${t.p>=10?'hot':''}">${t.tag?`<span class="tag">${t.tag}</span>`:''}<div class="p">£${t.p}</div><small>every 28 days</small><div class="g">£${t.g} TO PLAY</div><button class="btn sm block" onclick="joinTier(${t.p})">Join</button></div>`).join('')}</div>
+
+   <div class="sechead" id="sec-winners"><h2>Recent <span>winners</span></h2><a class="btn ghost sm" href="#winners">See all winners</a></div>
+   <div class="wlist">${winners.slice(0,4).map(winHTML).join('')}</div>
+
+   <div class="sechead" id="sec-draws"><h2>How it <span>works</span></h2></div>
+   <div class="steps">
+    <div class="step"><div class="n">01</div><h3>Pick a competition</h3><p class="note">Choose your prize and how many tickets you want. Every ticket gets its own number.</p></div>
+    <div class="step"><div class="n">02</div><h3>Pay your way</h3><p class="note">Use your Cushty wallet, card (Stripe), PayPal or bank transfer. Members get double playing value.</p></div>
+    <div class="step"><div class="n">03</div><h3>Watch the live draw</h3><p class="note">Winners are picked live on Facebook or contacted directly, then shown on our Winners page.</p></div>
+   </div>
+  </div>`;
+  const grid=document.getElementById('cgrid');
+  const renderGrid=f=>{let list=comps.slice();if(f==='ending')list.sort((a,b)=>a.end-b.end);else if(f==='instant')list=list.filter(c=>c.instant);else if(f!=='all')list=list.filter(c=>c.cat===f);grid.innerHTML=list.map(card).join('')||'<p class="note">No competitions in this category yet.</p>'};
+  renderGrid(scrollTo==='instant'?'instant':'all');
+  if(scrollTo==='instant'){document.querySelectorAll('#ctabs button').forEach(b=>b.classList.toggle('on',b.dataset.c==='instant'))}
+  document.getElementById('ctabs').onclick=e=>{const b=e.target.closest('button');if(!b)return;document.querySelectorAll('#ctabs button').forEach(x=>x.classList.toggle('on',x===b));renderGrid(b.dataset.c)};
+  // hero
+  let i=0,start=Date.now();const DUR=6000;const els=[...document.querySelectorAll('.slide')],dots=[...document.querySelectorAll('.dots button')];
+  const go=n=>{i=n;els.forEach((e,k)=>e.classList.toggle('on',k===i));dots.forEach((d,k)=>d.classList.toggle('on',k===i));start=Date.now()};
+  dots.forEach(d=>d.onclick=()=>go(+d.dataset.i));
+  clearInterval(heroTimer);heroTimer=setInterval(()=>{const vb=document.getElementById('vbar');if(!vb){clearInterval(heroTimer);return}const p=(Date.now()-start)/DUR;vb.style.width=Math.min(100,p*100)+'%';if(p>=1)go((i+1)%els.length)},100);
+  if(scrollTo&&scrollTo!=='home'){const el=document.getElementById('sec-'+(scrollTo==='instant'?'comps':scrollTo));if(el)setTimeout(()=>el.scrollIntoView({behavior:'smooth',block:'start'}),50)}else window.scrollTo(0,0);
+}
+function winHTML(w){return `<div class="win ${w.isNew?'new':''}"><div class="av" style="background:${G.gold}">${w.e}</div><div><b>${esc(w.n)}${w.from?' · '+esc(w.from):''}</b><span>${esc(w.prize)}</span><br><small>Ticket #${w.t} · ${dstr(w.d)}${w.isNew?' · <b style="color:var(--gold)">JUST ADDED</b>':''}</small></div></div>`}
+
+function viewWinners(){app.innerHTML=`<div class="wrap"><div class="sechead"><h2>Our <span>winners</span></h2></div><p class="note">Every winner is added here by the owner with one click straight after the draw.</p><div class="wlist mt">${winners.map(winHTML).join('')}</div></div>`;window.scrollTo(0,0)}
+
+function viewComp(id){
+  const c=C(id)||comps[0];let q=10;
+  const iw=c.instant?['£50 cash','£25 cash','£10 site credit','£10 site credit','£5 site credit','£5 site credit','AirPods','£100 cash']:[];
+  app.innerHTML=`<div class="wrap">
+   <div class="crumbs"><a href="#home">Competitions</a> / ${c.t}</div>
+   <div class="cpage">
+    <div><div class="cimg" style="background:${c.g}"><span class="badge">${c.tag}</span><span style="filter:drop-shadow(0 20px 30px rgba(0,0,0,.6))">${c.e}</span></div>
+     <div class="panel mt"><h3 class="t">Competition details</h3><ul class="desc">
+      <li>Maximum ${c.total.toLocaleString()} tickets · max 250 per person</li>
+      <li>Ticket numbers are allocated in order from #1, shown in your account straight away</li>
+      <li>Draw: ${dstr(c.end)} at 8pm, live on Facebook (or earlier if it sells out)</li>
+      <li>Free postal entry available. See Free Entry Route</li></ul></div>
+     ${c.instant?`<div class="panel mt"><h3 class="t">⚡ Instant win prizes</h3><div class="iw">${iw.map((p,k)=>`<div class="${k===1||k===4?'won':''}">${p}<br><small class="note">${k===1||k===4?'Won · #'+(400+k*37):'Still to be won'}</small></div>`).join('')}</div></div>`:''}
+    </div>
+    <div class="panel" style="position:sticky;top:90px">
+     <h1>${c.t}</h1>
+     <div class="price">${fmt(c.p)} <small>per ticket</small></div>
+     <div class="bigcd" data-end="${c.end}">${cdParts(c.end).map((v,k)=>`<span>${v}<small>${['days','hrs','mins','secs'][k]}</small></span>`).join('')}</div>
+     <div class="prog"><span style="width:${pct(c)}%"></span></div>
+     <div class="meta mt" style="margin-top:6px"><span>${c.sold.toLocaleString()} sold</span><span>${pct(c)}% sold</span></div>
+     <h3 class="t mt">How many tickets?</h3>
+     <div class="qty"><button id="qm">−</button><div class="v" id="qv">10</div><button id="qp">+</button><div class="spacer"></div></div>
+     <input type="range" id="qr" min="1" max="100" value="10">
+     <div class="quick mt" id="qq">${[5,10,25,50,100].map(n=>`<button data-n="${n}" class="${n===10?'on':''}">${n}</button>`).join('')}</div>
+     <div class="total"><span>Total</span><b id="qt"></b></div>
+     <button class="btn block" id="addb">Add to basket</button>
+     <p class="note mt">💰 You have <b style="color:var(--gold)">${fmt(S.play)}</b> to play in your wallet. Members on the £${S.plan} plan get £${S.plan*2} playing value every 28 days.</p>
+    </div>
+   </div></div>`;
+  const set=n=>{q=Math.max(1,Math.min(100,n));qv.textContent=q;qr.value=q;qt.textContent=fmt(q*c.p);document.querySelectorAll('#qq button').forEach(b=>b.classList.toggle('on',+b.dataset.n===q))};
+  const qv=document.getElementById('qv'),qr=document.getElementById('qr'),qt=document.getElementById('qt');
+  set(10);qm.onclick=()=>set(q-1);qp.onclick=()=>set(q+1);qr.oninput=()=>set(+qr.value);
+  document.getElementById('qq').onclick=e=>{const b=e.target.closest('button');if(b)set(+b.dataset.n)};
+  addb.onclick=()=>{const ex=basket.find(b=>b.c===c.id);if(ex)ex.q+=q;else basket.push({c:c.id,q});updHdr();toast(`✅ ${q} tickets added to your basket`);setTimeout(()=>location.hash='basket',500)};
+  window.scrollTo(0,0);
+}
+
+function viewBasket(){
+  if(!basket.length) basket=[{c:1,q:10},{c:3,q:5}];
+  updHdr();
+  const total=()=>basket.reduce((a,b)=>a+b.q*C(b.c).p,0);
+  let method='wallet';
+  const render=()=>{
+   const t=total();const walletOk=S.play>=t;
+   if(method==='wallet'&&!walletOk)method='stripe';
+   app.innerHTML=`<div class="wrap"><div class="co">
+    <div class="panel"><h2 class="t">Your basket</h2>
+     ${basket.map((b,k)=>{const c=C(b.c);return `<div class="line"><div class="e" style="background:${c.g}">${c.e}</div><div class="grow"><b>${c.t}</b><div class="note">${b.q} × ${fmt(c.p)}</div></div><b>${fmt(b.q*c.p)}</b><button class="btn dark sm" data-rm="${k}">✕</button></div>`}).join('')}
+     <div class="callout g mt">🎟️ Ticket numbers are given out in order the moment your payment is confirmed. No gaps and no duplicates, so the owner has a clean list for the live draw.</div>
+    </div>
+    <div class="panel"><h2 class="t">Checkout</h2>
+     <div class="total"><span>Total</span><b>${fmt(t)}</b></div>
+     <div class="paym" id="paym">
+      <label class="${method==='wallet'?'on':''}"><input type="radio" name="pm" value="wallet" ${method==='wallet'?'checked':''} ${walletOk?'':'disabled'}> 💰 <b>Cushty wallet</b><span class="r">${fmt(S.play)} available${walletOk?'':' (not enough)'}</span></label>
+      <label class="${method==='stripe'?'on':''}"><input type="radio" name="pm" value="stripe" ${method==='stripe'?'checked':''}> <span class="logo-s" style="background:#635bff;color:#fff">stripe</span> Card / Apple Pay / Google Pay</label>
+      <label class="${method==='paypal'?'on':''}"><input type="radio" name="pm" value="paypal" ${method==='paypal'?'checked':''}> <span class="logo-s" style="background:#ffc439;color:#003087">PayPal</span> Pay with PayPal</label>
+      <label class="${method==='bank'?'on':''}"><input type="radio" name="pm" value="bank" ${method==='bank'?'checked':''}> 🏦 <b>Bank transfer</b><span class="r">tickets issued when received</span></label>
+     </div>
+     <button class="btn block" id="payb">${method==='bank'?'Get bank details':'Pay '+fmt(t)}</button>
+     <p class="note mt">Demo only: no money is taken. On the live site Stripe and PayPal open their secure checkout.</p>
+    </div></div></div>`;
+   document.querySelectorAll('[data-rm]').forEach(b=>b.onclick=()=>{basket.splice(+b.dataset.rm,1);updHdr();if(!basket.length){location.hash='home';return}render()});
+   document.getElementById('paym').onchange=e=>{method=e.target.value;render()};
+   document.getElementById('payb').onclick=()=>pay(method,t);
+  };
+  render();window.scrollTo(0,0);
+}
+function pay(method,t){
+  if(method==='bank'){modal(`<h3>Bank transfer</h3><p>Please send <b>${fmt(t)}</b> to:</p><div class="panel"><b>Cushty Prizes Ltd</b><br>Sort code: 00-00-00<br>Account: 12345678<br>Reference: <b style="color:var(--gold)">CP-48213</b></div><p class="note mt">Your tickets are reserved for 24 hours and numbered as soon as the owner marks the payment as received in the owner dashboard.</p><button class="btn block" onclick="closeModal()">Got it</button>`);return}
+  const label={wallet:'Cushty wallet',stripe:'Stripe',paypal:'PayPal'}[method];
+  modal(`<h3>Processing…</h3><p class="note">Confirming payment with ${label}…</p><div class="prog"><span id="pp" style="width:5%;transition:width 1.2s"></span></div>`);
+  setTimeout(()=>{const pp=document.getElementById('pp');if(pp)pp.style.width='100%'},50);
+  setTimeout(()=>{
+   if(method==='wallet'){S.play=+(S.play-t).toFixed(2);S.tx.unshift({d:Date.now(),desc:'Tickets paid from wallet',amt:-t,type:'spend'})}
+   else S.tx.unshift({d:Date.now(),desc:`Tickets paid by ${label}`,amt:-t,type:'pay'});
+   payments.unshift({d:Date.now(),n:'Sarah M.',kind:'Tickets',m:label==='Cushty wallet'?'Wallet':label,amt:+t.toFixed(2),st:'ok'});
+   const out=basket.map(b=>{const c=C(b.c);const nums=Array.from({length:b.q},(_,k)=>c.sold+1+k);c.sold+=b.q;const ex=S.tickets.find(x=>x.c===c.id);if(ex)ex.nums.push(...nums);else S.tickets.unshift({c:c.id,nums});return {c,nums}});
+   basket=[];updHdr();
+   modal(`<h3>🎉 You're in!</h3><p>Payment confirmed. Here are your ticket numbers:</p>${out.map(o=>`<div class="panel mt"><b>${o.c.e} ${o.c.t}</b><div class="tnums">${o.nums.slice(0,30).map(n=>`<span>#${n}</span>`).join('')}${o.nums.length>30?`<span>+${o.nums.length-30} more</span>`:''}</div></div>`).join('')}<p class="note mt">A confirmation email and app notification have been sent. You'll find these in <b>My Tickets</b>.</p><div class="row mt"><a class="btn" href="#account" onclick="closeModal();acctTab='tickets'">View my tickets</a><button class="btn ghost" onclick="closeModal();location.hash='home'">Keep playing</button></div>`);
+  },1500);
+}
+function joinTier(p){acctTab='membership';location.hash='account';setTimeout(()=>changePlan(p),300)}
+
+/* ---------------- MEMBER DASHBOARD ---------------- */
+let acctTab='overview';
+function viewAccount(){
+  const unread=S.msgs.filter(m=>!m.read).length;
+  const tabs=[['overview','🏠 Overview'],['tickets','🎟️ My tickets'],['wallet','💰 Wallet'],['membership','⭐ Membership'],['messages','✉️ Messages'],['profile','👤 Profile']];
+  app.innerHTML=`<div class="wrap"><div class="dash">
+   <aside class="side"><div class="who"><b>${S.name}</b><small>Member · £${S.plan} plan</small></div>
+    ${tabs.map(t=>`<button class="${acctTab===t[0]?'on':''}" data-t="${t[0]}">${t[1]}${t[0]==='messages'&&unread?`<span class="c">${unread}</span>`:''}</button>`).join('')}
+    <button onclick="toast('Logged out (demo)')">🚪 Log out</button></aside>
+   <section id="acct"></section></div></div>`;
+  document.querySelector('.side').onclick=e=>{const b=e.target.closest('button[data-t]');if(!b)return;acctTab=b.dataset.t;viewAccount()};
+  const el=document.getElementById('acct');
+  const daysLeft=Math.max(0,Math.ceil((S.nextCredit-Date.now())/DAY));const prog=Math.round((28-daysLeft)/28*100);
+  if(acctTab==='overview'){
+   el.innerHTML=`<h2 class="t">Hi ${S.name.split(' ')[0]} 👋</h2>
+    <div class="kpis"><div class="kpi gold"><small>Available to play</small><b>${fmt(S.play)}</b></div><div class="kpi"><small>Winnings</small><b style="color:#4ade80">${fmt(S.winnings)}</b></div><div class="kpi"><small>Active tickets</small><b>${S.tickets.reduce((a,t)=>a+t.nums.length,0)}</b></div><div class="kpi"><small>Next FREE credits</small><b>${daysLeft} days</b></div></div>
+    <div class="mem"><div class="ring" style="--p:${prog}"><div><span><b>${daysLeft}</b>days left</span></div></div><div><small class="note">YOUR MEMBERSHIP</small><div class="big">£${S.plan} / 28 days</div><div>Next <b style="color:var(--gold)">£${S.plan*2} FREE credits</b> on <b>${dstr(S.nextCredit)}</b> after your payment is verified.</div></div><div class="spacer"></div><button class="btn" onclick="acctTab='membership';viewAccount()">Manage</button></div>
+    <div class="two mt"><div class="panel"><h3 class="t">Latest tickets</h3>${ticketRows(3)}</div><div class="panel"><h3 class="t">Messages</h3>${S.msgs.slice(0,2).map(msgHTML).join('')}</div></div>`;
+  }
+  if(acctTab==='tickets'){el.innerHTML=`<h2 class="t">My tickets</h2><div class="panel">${ticketRows(99)}</div>`}
+  if(acctTab==='wallet'){
+   el.innerHTML=`<h2 class="t">My wallet</h2>
+    <div class="bal"><div class="balc play"><small>💰 AVAILABLE TO PLAY</small><b>${fmt(S.play)}</b><small>For competition tickets only. Cannot be withdrawn as cash.</small><div class="row mt"><button class="btn sm" onclick="addMoney()">+ Add money</button></div></div>
+    <div class="balc win"><small>🏆 WINNINGS</small><b>${fmt(S.winnings)}</b><small>Prize money you won. You can withdraw this.</small><div class="row mt"><button class="btn sm" style="background:var(--green)" onclick="withdraw()" ${S.winnings>0?'':'disabled'}>Withdraw</button><button class="btn dark sm" onclick="moveWin()" ${S.winnings>0?'':'disabled'}>Use to play</button></div></div></div>
+    ${S.withdrawals.length?`<div class="callout g">⏳ Withdrawal of ${fmt(S.withdrawals[0].amt)} requested on ${dstr(S.withdrawals[0].d)} · waiting for owner approval.</div>`:''}
+    <div class="panel"><h3 class="t">Transactions</h3><div class="tblwrap"><table><tr><th>Date</th><th>Description</th><th style="text-align:right">Amount</th></tr>${S.tx.map(t=>`<tr><td>${dstr(t.d)}</td><td>${t.desc}</td><td style="text-align:right;color:${t.amt>0?'#4ade80':'#ddd'};font-weight:700">${t.amt>0?'+':''}${fmt(t.amt).replace('£-','-£')}</td></tr>`).join('')}</table></div></div>`;
+  }
+  if(acctTab==='membership'){
+   el.innerHTML=`<h2 class="t">My membership</h2>
+    <div class="mem"><div class="ring" style="--p:${prog}"><div><span><b>${daysLeft}</b>days left</span></div></div><div><small class="note">CURRENT PLAN</small><div class="big">£${S.plan} / 28 days</div><div>£${S.plan*2} playing value each cycle · last credits ${dstr(S.lastCredit)} · next <b style="color:var(--gold)">${dstr(S.nextCredit)}</b></div>${S.planPending?`<div class="callout mt">Changed to the £${S.planPending} plan today. No FREE credits are added on the change date. First £${S.planPending*2} credits on ${dstr(S.nextCredit)} after payment is verified.</div>`:''}</div></div>
+    <div class="callout r">🔒 <b>Fair-play rule:</b> FREE credits are added <b>once per 28 days</b> and only after a verified payment. Upgrading, downgrading or re-joining starts a new 28-day cycle, so changing plans can never be used to get extra credits.</div>
+    <h3 class="t mt">Change plan</h3><div class="tiers">${tiers.map(t=>`<div class="tier ${t.p===S.plan?'hot':''}"><div class="p">£${t.p}</div><small>every 28 days</small><div class="g">£${t.g} TO PLAY</div>${t.p===S.plan?'<button class="btn dark sm block" disabled>Current</button>':`<button class="btn sm block" onclick="changePlan(${t.p})">${t.p>S.plan?'Upgrade':'Switch'}</button>`}</div>`).join('')}</div>
+    <div class="row mt"><span class="note">Pay with:</span><span class="logo-s" style="background:#635bff;color:#fff">stripe</span><span class="logo-s" style="background:#ffc439;color:#003087">PayPal</span><span class="note">🏦 Bank standing order</span><div class="spacer"></div><button class="btn ghost sm" onclick="toast('Membership cancelled at end of cycle (demo)')">Cancel membership</button></div>`;
+  }
+  if(acctTab==='messages'){S.msgs.forEach(m=>m.read=true);el.innerHTML=`<h2 class="t">Messages</h2><div class="panel" style="padding:0">${S.msgs.map(msgHTML).join('')}</div>`;setTimeout(()=>{const c=document.querySelector('.side .c');if(c)c.remove()},0)}
+  if(acctTab==='profile'){el.innerHTML=`<h2 class="t">Profile</h2><div class="panel"><div class="two"><div class="field"><label>Full name</label><input value="${S.name}"></div><div class="field"><label>Email</label><input value="${S.email}"></div><div class="field"><label>Mobile</label><input value="${S.phone}"></div><div class="field"><label>Date of birth</label><input value="14/03/1991"></div></div>
+    <div class="field"><label>Notifications</label><div class="checks"><label><input type="checkbox" checked> Email</label><label><input type="checkbox" checked> App notifications</label><label><input type="checkbox" checked> SMS texts</label></div></div>
+    <div class="row"><button class="btn" onclick="toast('✅ Profile saved')">Save changes</button><button class="btn ghost" onclick="toast('Password reset email sent (demo)')">Change password</button></div></div>`}
+  window.scrollTo(0,0);
+}
+function ticketRows(max){if(!S.tickets.length)return '<p class="note">No tickets yet.</p>';return S.tickets.slice(0,max).map(t=>{const c=C(t.c);return `<div class="line"><div class="e" style="background:${c.g}">${c.e}</div><div class="grow"><b>${c.t}</b><div class="note">Draw ${dstr(c.end)} · ${t.nums.length} ticket${t.nums.length>1?'s':''}</div><div class="tnums">${t.nums.slice(0,12).map(n=>`<span>#${n}</span>`).join('')}${t.nums.length>12?`<span>+${t.nums.length-12}</span>`:''}</div></div></div>`}).join('')}
+function msgHTML(m){return `<div class="msg ${m.read?'read':''}"><span class="dot"></span><div><b>${esc(m.s)}</b><div class="note">${esc(m.b)}</div><small>${esc(m.from)} · ${dstr(m.d)}</small></div></div>`}
+function changePlan(p){
+  if(p===S.plan){toast('You are already on this plan');return}
+  modal(`<h3>Switch to £${p} plan?</h3><p>You'll pay <b>£${p} every 28 days</b> and get <b style="color:var(--gold)">£${p*2} playing value</b> each cycle.</p>
+   <div class="callout r">Changing plan starts a <b>new 28-day cycle today</b>. <b>No FREE credits are added today.</b> Your first £${p*2} credits arrive on <b>${dstr(Date.now()+28*DAY)}</b> after your payment is verified.</div>
+   <div class="paym"><label class="on"><input type="radio" name="pp" checked> <span class="logo-s" style="background:#635bff;color:#fff">stripe</span> Card</label><label><input type="radio" name="pp"> <span class="logo-s" style="background:#ffc439;color:#003087">PayPal</span></label><label><input type="radio" name="pp"> 🏦 Bank standing order</label></div>
+   <div class="row"><button class="btn" onclick="confirmPlan(${p})">Confirm change</button><button class="btn ghost" onclick="closeModal()">Cancel</button></div>`);
+}
+function confirmPlan(p){S.plan=p;S.planPending=p;S.nextCredit=Date.now()+28*DAY;S.tx.unshift({d:Date.now(),desc:`£${p} membership payment (Stripe). Credits due ${dstr(S.nextCredit)}`,amt:-p,type:'pay'});payments.unshift({d:Date.now(),n:'Sarah M.',kind:'Membership',m:'Stripe',amt:p,st:'ok'});closeModal();acctTab='membership';viewAccount();toast('✅ Plan changed. No extra credits today (fair-play rule)')}
+function addMoney(){let amt=20;modal(`<h3>Add money</h3><p class="note">Top up your playing balance. Top-ups are for tickets only and don't earn FREE membership credits.</p><div class="quick mt" id="am">${[10,20,50,100].map(n=>`<button data-n="${n}" class="${n===20?'on':''}">£${n}</button>`).join('')}</div><div class="paym"><label class="on"><input type="radio" name="ap" checked> <span class="logo-s" style="background:#635bff;color:#fff">stripe</span> Card</label><label><input type="radio" name="ap"> <span class="logo-s" style="background:#ffc439;color:#003087">PayPal</span></label><label><input type="radio" name="ap"> 🏦 Bank transfer</label></div><button class="btn block" id="amb">Add £20</button>`);
+  document.getElementById('am').onclick=e=>{const b=e.target.closest('button');if(!b)return;amt=+b.dataset.n;document.querySelectorAll('#am button').forEach(x=>x.classList.toggle('on',x===b));amb.textContent='Add £'+amt};
+  const amb=document.getElementById('amb');amb.onclick=()=>{S.play+=amt;S.tx.unshift({d:Date.now(),desc:'Wallet top-up (Stripe)',amt,type:'topup'});payments.unshift({d:Date.now(),n:'Sarah M.',kind:'Wallet top-up',m:'Stripe',amt,st:'ok'});updHdr();closeModal();viewAccount();toast(`✅ ${fmt(amt)} added to your wallet`)}}
+function withdraw(){modal(`<h3>Withdraw winnings</h3><p>Available to withdraw: <b style="color:#4ade80">${fmt(S.winnings)}</b></p><div class="field"><label>Pay to</label><select><option>Bank account ending 4821</option><option>PayPal (sarah.m@example.com)</option></select></div><p class="note">Only winnings can be withdrawn. Playing credit and top-ups stay in your account for tickets.</p><button class="btn block" style="background:var(--green)" onclick="doWithdraw()">Request ${fmt(S.winnings)}</button>`)}
+function doWithdraw(){const a=S.winnings;S.withdrawals.unshift({amt:a,d:Date.now()});owner.withdrawals.unshift({id:Date.now(),n:'Sarah M.',amt:a,d:Date.now(),st:'pending',m:'Bank transfer'});S.winnings=0;S.tx.unshift({d:Date.now(),desc:'Withdrawal requested',amt:-a,type:'wd'});closeModal();viewAccount();toast('✅ Withdrawal requested. The owner will approve it.')}
+function moveWin(){const a=S.winnings;S.play+=a;S.winnings=0;S.tx.unshift({d:Date.now(),desc:'Winnings moved to playing balance',amt:a,type:'move'});updHdr();viewAccount();toast(`${fmt(a)} moved to your playing balance`)}
+
+/* ---------------- OWNER DASHBOARD ---------------- */
+let ownTab='overview';
+function viewOwner(){
+  const pend=owner.withdrawals.filter(w=>w.st==='pending').length;
+  const tabs=[['overview','📊 Overview'],['payments','💳 Payments'],['balances','👥 Member balances'],['comps','🏁 Competitions'],['draw','🎯 Draw &amp; winners'],['messages','📣 Messages'],['withdrawals','🏦 Withdrawals']];
+  app.innerHTML=`<div class="wrap"><div class="dash">
+   <aside class="side"><div class="who"><b>Owner dashboard</b><small>Cushty Prizes admin</small></div>
+    ${tabs.map(t=>`<button class="${ownTab===t[0]?'on':''}" data-t="${t[0]}">${t[1]}${t[0]==='withdrawals'&&pend?`<span class="c">${pend}</span>`:''}</button>`).join('')}</aside>
+   <section id="own"></section></div></div>`;
+  document.querySelector('.side').onclick=e=>{const b=e.target.closest('button[data-t]');if(!b)return;ownTab=b.dataset.t;viewOwner()};
+  const el=document.getElementById('own');
+  const sum=(arr,f)=>arr.reduce((a,x)=>a+f(x),0);
+  const okPays=payments.filter(p=>p.st==='ok'&&p.m!=='Wallet');
+  if(ownTab==='overview'){
+   const byM={Stripe:0,PayPal:0,'Bank transfer':0};okPays.forEach(p=>byM[p.m]=(byM[p.m]||0)+p.amt);const mx=Math.max(...Object.values(byM),1);
+   el.innerHTML=`<h2 class="t">Overview · November 2026</h2>
+    <div class="kpis"><div class="kpi gold"><small>Money in this month</small><b>£${(18420+sum(okPays,p=>p.amt)).toLocaleString('en-GB',{maximumFractionDigits:0})}</b><span class="d">▲ 12% vs October</span></div>
+    <div class="kpi"><small>Active members</small><b>1,284</b><span class="d">▲ 86 this month</span></div>
+    <div class="kpi"><small>Membership income</small><b>£7,860</b><span class="d">612 paying members</span></div>
+    <div class="kpi"><small>Playing credit held</small><b>£${(21340+sum(members,m=>m.play)).toLocaleString('en-GB',{maximumFractionDigits:0})}</b><span class="note">across all wallets</span></div>
+    <div class="kpi"><small>Winnings owed</small><b style="color:#4ade80">£${(1180+sum(members,m=>m.win)).toLocaleString('en-GB',{maximumFractionDigits:0})}</b><span class="note">${pend} withdrawal${pend===1?'':'s'} pending</span></div>
+    <div class="kpi"><small>Live competitions</small><b>${comps.length}</b><span class="note">${comps.reduce((a,c)=>a+c.sold,0).toLocaleString()} tickets sold</span></div></div>
+    <div class="two"><div class="panel"><h3 class="t">Income by payment method (latest)</h3>${Object.entries(byM).map(([k,v])=>`<div style="margin:10px 0"><div class="meta"><b style="color:#fff">${k}</b><span>${fmt(v)}</span></div><div class="prog"><span style="width:${v/mx*100}%"></span></div></div>`).join('')}</div>
+    <div class="panel"><h3 class="t">Latest payments</h3>${payTable(payments.slice(0,6),true)}</div></div>`;
+  }
+  if(ownTab==='payments'){
+   el.innerHTML=`<div class="row"><h2 class="t" style="margin:0">All payments</h2><div class="spacer"></div><select class="pill" id="pf"><option value="">All methods</option><option>Stripe</option><option>PayPal</option><option>Bank transfer</option><option>Wallet</option></select><button class="btn dark sm" onclick="toast('CSV downloaded (on the live site)')">⬇ Export CSV</button></div><div class="panel mt" id="ptab">${payTable(payments)}</div>`;
+   document.getElementById('pf').onchange=e=>{document.getElementById('ptab').innerHTML=payTable(e.target.value?payments.filter(p=>p.m===e.target.value):payments)};
+  }
+  if(ownTab==='balances'){
+   const render=(mo)=>{const f=mo==='Nov 2026'?1:mo==='Oct 2026'?.82:.67;
+    document.getElementById('btab').innerHTML=`<div class="kpis"><div class="kpi gold"><small>Total playing credit · ${mo}</small><b>${fmt(sum(members,m=>m.play)*f)}</b></div><div class="kpi"><small>Total winnings · ${mo}</small><b style="color:#4ade80">${fmt(sum(members,m=>m.win)*f)}</b></div><div class="kpi"><small>Members shown</small><b>${members.length}</b></div></div>
+    <div class="panel tblwrap"><table><tr><th>Member</th><th>Plan</th><th>Playing credit</th><th>Winnings</th><th>Last FREE credits</th><th>Next due</th><th></th></tr>${members.map(m=>`<tr><td><b>${m.n}</b><br><small class="note">${m.email}</small></td><td>${m.plan?`<span class="st pend">£${m.plan}</span>`:'<span class="st blue">Free</span>'}</td><td>${fmt(m.play*f)}</td><td style="color:${m.win?'#4ade80':'inherit'}">${fmt(m.win*f)}</td><td>${m.plan?dstr(m.last):'-'}</td><td>${m.plan?dstr(m.last+28*DAY):'-'}</td><td><button class="btn dark sm" onclick="ownTab='messages';viewOwner();setTimeout(()=>{document.getElementById('mto').value='one';document.getElementById('mto').dispatchEvent(new Event('change'));document.getElementById('mone').value='${m.n}'},50)">Message</button></td></tr>`).join('')}</table></div>`};
+   el.innerHTML=`<div class="row"><h2 class="t" style="margin:0">Member balances</h2><div class="spacer"></div><select class="pill" id="mo"><option>Nov 2026</option><option>Oct 2026</option><option>Sep 2026</option></select><button class="btn dark sm" onclick="toast('Monthly report downloaded (on the live site)')">⬇ Monthly report</button></div><p class="note">Snapshot of how much every member holds at the end of each month.</p><div id="btab"></div>`;
+   render('Nov 2026');document.getElementById('mo').onchange=e=>render(e.target.value);
+  }
+  if(ownTab==='comps'){
+   el.innerHTML=`<div class="row"><h2 class="t" style="margin:0">Competitions</h2><div class="spacer"></div><button class="btn sm" onclick="newComp()">+ New competition</button></div>
+    <div class="panel mt tblwrap"><table><tr><th>Prize</th><th>Price</th><th>Sold</th><th>Ends</th><th>Status</th><th></th></tr>${comps.map(c=>`<tr><td><b>${c.e} ${c.t}</b></td><td>${fmt(c.p)}</td><td>${c.sold.toLocaleString()} / ${c.total.toLocaleString()}<div class="prog" style="margin-top:4px;width:120px"><span style="width:${pct(c)}%"></span></div></td><td>${dstr(c.end)}</td><td>${owner.drawn[c.id]?'<span class="st ok">Drawn</span>':'<span class="st pend">Live</span>'}</td><td class="row"><button class="btn dark sm" onclick="drawComp=${c.id};ownTab='draw';viewOwner()">Draw</button><button class="btn dark sm" onclick="toast('Editor opens here on the live site')">Edit</button></td></tr>`).join('')}</table></div>`;
+  }
+  if(ownTab==='draw'){
+   const c=C(drawComp)||comps[1];const d=owner.drawn[c.id];
+   const show=Math.min(c.sold,300);
+   el.innerHTML=`<h2 class="t">Draw &amp; winners</h2>
+    <div class="row"><select class="pill" id="dsel">${comps.map(x=>`<option value="${x.id}" ${x.id===c.id?'selected':''}>${x.e} ${x.t}</option>`).join('')}</select><span class="note">${c.sold.toLocaleString()} tickets sold · numbered #1 to #${c.sold.toLocaleString()}</span></div>
+    <div class="two mt"><div class="panel"><h3 class="t">Entry list (in order)</h3><div class="ticketgrid" id="tg">${Array.from({length:show},(_,k)=>`<span id="tk${k+1}" title="${names[(k*7)%names.length]}">#${k+1}</span>`).join('')}</div>${c.sold>show?`<p class="note mt">+ ${(c.sold-show).toLocaleString()} more tickets</p>`:''}<button class="btn dark sm mt" onclick="toast('Full entry list downloaded (CSV, on the live site)')">⬇ Download full entry list</button></div>
+    <div class="panel"><h3 class="t">Pick the winner</h3>
+     <div class="checks"><label><input type="radio" name="dm" checked> 📺 Live on Facebook</label><label><input type="radio" name="dm"> ✉️ Message the winner</label></div>
+     <div class="roll" id="roll">${d?'#'+d.t:'#----'}</div><div class="rollname" id="rname">${d?d.n:''}</div>
+     <div class="row mt"><button class="btn red" id="drawb" ${d?'disabled':''}>🎲 Random draw</button><button class="btn" id="pubb" ${d&&!d.pub?'':'disabled'}>🏆 Publish to Winners page</button></div>
+     <p class="note mt">Or enter the number drawn live (e.g. from a random number generator on Facebook):</p>
+     <div class="row"><input class="pill" id="manual" type="number" min="1" max="${c.sold}" placeholder="Ticket #" style="width:120px"><button class="btn dark sm" id="manb" ${d?'disabled':''}>Set winner</button></div>
+     ${d&&d.pub?'<div class="callout g mt">✅ Published to the Winners page and the winner has been notified.</div>':''}
+    </div></div>`;
+   document.getElementById('dsel').onchange=e=>{drawComp=+e.target.value;viewOwner()};
+   const setWinner=t=>{const n=names[(t*7)%names.length];owner.drawn[c.id]={t,n,pub:false};document.getElementById('roll').textContent='#'+t;document.getElementById('rname').textContent='🎉 '+n;const h=document.getElementById('tk'+t);if(h){h.classList.add('hit');h.scrollIntoView({block:'nearest'})}document.getElementById('pubb').disabled=false;document.getElementById('drawb').disabled=true;document.getElementById('manb').disabled=true};
+   document.getElementById('drawb').onclick=()=>{let k=0;const r=document.getElementById('roll');const iv=setInterval(()=>{r.textContent='#'+(1+Math.floor(Math.random()*c.sold));if(++k>28){clearInterval(iv);setWinner(1+Math.floor(Math.random()*Math.min(c.sold,show)))}},70)};
+   document.getElementById('manb').onclick=()=>{const v=+document.getElementById('manual').value;if(v<1||v>c.sold){toast('Enter a ticket number between 1 and '+c.sold);return}setWinner(v)};
+   document.getElementById('pubb').onclick=()=>{const w=owner.drawn[c.id];w.pub=true;winners.unshift({n:w.n,from:'',prize:c.t,e:c.e,d:Date.now(),t:w.t,isNew:true});toast('🏆 Winner published! See the Winners page');viewOwner()};
+  }
+  if(ownTab==='messages'){
+   el.innerHTML=`<h2 class="t">Message members</h2><div class="two"><div class="panel">
+    <div class="field"><label>Send to</label><select id="mto"><option value="all">All members (1,284)</option><option value="paid">Paying members only (612)</option><option value="one">One member…</option></select></div>
+    <div class="field" id="monew" style="display:none"><label>Member</label><select id="mone">${names.map(n=>`<option>${n}</option>`).join('')}</select></div>
+    <div class="field"><label>Send by</label><div class="checks"><label><input type="checkbox" id="ce" checked> ✉️ Email</label><label><input type="checkbox" id="ca" checked> 📱 App notification</label><label><input type="checkbox" id="cs"> 💬 SMS text</label></div></div>
+    <div class="field"><label>Subject</label><input id="msub" placeholder="e.g. New competition just launched!"></div>
+    <div class="field"><label>Message</label><textarea id="mbody" placeholder="Write your message…"></textarea></div>
+    <div class="row"><button class="btn dark sm" onclick="tpl()">✨ Use 'New competition' template</button><div class="spacer"></div><span class="note" id="smsc"></span></div>
+    <button class="btn block mt" id="sendb">Send message</button></div>
+    <div class="panel"><h3 class="t">Sent messages</h3><div class="tblwrap"><table id="sentt"></table></div></div></div>`;
+   const mto=document.getElementById('mto');const cnt=()=>mto.value==='all'?1284:mto.value==='paid'?612:1;
+   const upd=()=>{document.getElementById('monew').style.display=mto.value==='one'?'':'none';document.getElementById('smsc').textContent=document.getElementById('cs').checked?`SMS approx. £${(cnt()*0.04).toFixed(2)} (paid to SMS provider)`:''};
+   mto.onchange=upd;document.getElementById('cs').onchange=upd;upd();
+   const rs=()=>document.getElementById('sentt').innerHTML=`<tr><th>Date</th><th>To</th><th>Via</th><th>Subject</th></tr>`+owner.sent.map(s=>`<tr><td>${dstr(s.d)}</td><td>${esc(s.to)}</td><td>${s.ch}</td><td>${esc(s.s)}</td></tr>`).join('');rs();
+   document.getElementById('sendb').onclick=()=>{const s=document.getElementById('msub').value.trim(),b=document.getElementById('mbody').value.trim();if(!s||!b){toast('Add a subject and message first');return}const ch=[['ce','Email'],['ca','App'],['cs','SMS']].filter(x=>document.getElementById(x[0]).checked).map(x=>x[1]);if(!ch.length){toast('Choose at least one way to send');return}const to=mto.value==='one'?document.getElementById('mone').value:mto.options[mto.selectedIndex].text;owner.sent.unshift({d:Date.now(),to,ch:ch.join(', '),s});if(mto.value!=='one'||document.getElementById('mone').value==='Sarah M.')S.msgs.unshift({from:'Cushty Prizes',s,b,d:Date.now(),read:false});rs();document.getElementById('msub').value='';document.getElementById('mbody').value='';toast(`📣 Sent to ${to} by ${ch.join(', ')}`)};
+  }
+  if(ownTab==='withdrawals'){
+   el.innerHTML=`<h2 class="t">Winnings withdrawals</h2><p class="note">Members can only withdraw <b>winnings</b>. Playing credit and top-ups can never be withdrawn.</p><div class="panel tblwrap"><table><tr><th>Date</th><th>Member</th><th>Amount</th><th>Method</th><th>Status</th><th></th></tr>${owner.withdrawals.map(w=>`<tr><td>${dstr(w.d)}</td><td><b>${w.n}</b></td><td>${fmt(w.amt)}</td><td>${w.m}</td><td>${w.st==='pending'?'<span class="st pend">Pending</span>':'<span class="st ok">Paid</span>'}</td><td>${w.st==='pending'?`<button class="btn sm" style="background:var(--green)" onclick="approveW(${w.id})">Approve &amp; mark paid</button>`:''}</td></tr>`).join('')}</table></div>`;
+  }
+  window.scrollTo(0,0);
+}
+let drawComp=2;
+function payTable(list,compact){return `<div class="tblwrap"><table><tr><th>When</th><th>Member</th>${compact?'':'<th>Type</th>'}<th>Method</th><th>Amount</th><th>Status</th></tr>${list.map(p=>`<tr><td>${new Date(p.d).toLocaleString('en-GB',{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'})}</td><td>${p.n}</td>${compact?'':`<td>${p.kind}</td>`}<td>${p.m}</td><td><b>${fmt(p.amt)}</b></td><td>${p.st==='ok'?'<span class="st ok">Paid</span>':'<span class="st pend">Awaiting</span>'}</td></tr>`).join('')}</table></div>`}
+function approveW(id){const w=owner.withdrawals.find(x=>x.id===id);w.st='paid';if(S.withdrawals.length)S.withdrawals=[];viewOwner();toast(`✅ ${fmt(w.amt)} marked as paid to ${w.n}`)}
+function tpl(){const c=comps[5];document.getElementById('msub').value=`🎉 New competition: ${c.t}!`;document.getElementById('mbody').value=`Our latest competition is now live! Win ${c.t} with tickets from just ${fmt(c.p)}. Only ${c.total.toLocaleString()} tickets available. Good luck!\n\nThe Cushty Prizes team`}
+function newComp(){modal(`<h3>New competition</h3><div class="field"><label>Prize name</label><input id="nc1" placeholder="e.g. MacBook Air M5"></div><div class="two"><div class="field"><label>Ticket price (£)</label><input id="nc2" type="number" value="0.99" step="0.01"></div><div class="field"><label>Max tickets</label><input id="nc3" type="number" value="1999"></div></div><div class="two"><div class="field"><label>Draw date</label><input id="nc4" type="date"></div><div class="field"><label>Image / video</label><input type="file" accept="image/*,video/*"></div></div><div class="checks"><label><input type="checkbox" id="nc5"> ⚡ Has instant wins</label><label><input type="checkbox" checked> 📣 Notify all members</label></div><div class="row mt"><button class="btn" onclick="addComp()">Publish competition</button><button class="btn ghost" onclick="closeModal()">Cancel</button></div>`)}
+function addComp(){const t=document.getElementById('nc1').value.trim()||'MacBook Air M5';const p=+document.getElementById('nc2').value||0.99;const total=+document.getElementById('nc3').value||1999;const dv=document.getElementById('nc4').value;const end=dv?new Date(dv+'T20:00').getTime():NOW+7*DAY;comps.unshift({id:Date.now()%1e6,t,e:'🎁',cat:'tech',p,total,sold:0,end,g:G.gold,tag:'New',instant:document.getElementById('nc5').checked});owner.sent.unshift({d:Date.now(),to:'All members (1,284)',ch:'Email, App',s:'🎉 New competition: '+t});S.msgs.unshift({from:'Cushty Prizes',s:'🎉 New competition: '+t,b:'Just launched. Tickets from '+fmt(p)+'!',d:Date.now(),read:false});closeModal();viewOwner();toast('✅ Competition is live on the homepage and members have been notified')}
+
+/* ---------------- ROUTER ---------------- */
+const app=document.getElementById('app');
+function route(){
+  const h=(location.hash||'#home').slice(1);
+  let v='home';
+  if(h.startsWith('comp-')){v='comp';viewComp(+h.slice(5))}
+  else if(h==='basket'){v='basket';viewBasket()}
+  else if(h==='account'){v='account';viewAccount()}
+  else if(h==='owner'){v='owner';viewOwner()}
+  else if(h==='winners'){v='winners';viewWinners()}
+  else viewHome(['memberships','instant','draws'].includes(h)?h:'home');
+  document.querySelectorAll('.demobar .views a').forEach(a=>a.classList.toggle('on',a.dataset.v===v));
+  document.querySelectorAll('nav.main a').forEach(a=>a.classList.toggle('on',a.dataset.n===h||(h==='home'&&a.dataset.n==='home')));
+  document.getElementById('nav').classList.remove('open');
+  updHdr();
+}
+window.addEventListener('hashchange',route);
+route();
+</script>
+</body>
+</html>

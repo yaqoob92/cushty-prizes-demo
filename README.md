@@ -1,0 +1,1 @@
+# cushty-prizes-demo
